@@ -8,15 +8,14 @@
             <label class="col-2 col-form-label">Nombre</label>
             <div class="col-8">
 
-                <input class="form-control" type="text" placeholder="Nombre"
-                        formControlName="nombre">
+                <input class="form-control" type="text" placeholder="Nombre" formControlName="nombre">
 
-                        <div *ngIf="forma.get('nombrecompleto.nombre').errors?.required" class="form-control-feedback">
-                            Este campo es necesario
-                        </div>
-                        <div *ngIf="forma.get('nombrecompleto.nombre').errors?.minlength" class="form-control-feedback">
-                            Por lo menos 3 caracteres
-                        </div>
+                <div *ngIf="forma.get('nombrecompleto.nombre').errors?.required" class="form-control-feedback">
+                    Este campo es necesario
+                </div>
+                <div *ngIf="forma.get('nombrecompleto.nombre').errors?.minlength" class="form-control-feedback">
+                    Por lo menos 3 caracteres
+                </div>
             </div>
         </div>
 
@@ -41,9 +40,7 @@
     <div class="form-group row">
         <label class="col-2 col-form-label">Correo</label>
         <div class="col-md-8" formArrayName="pasatiempos">
-            <input type="text" 
-                    class="form-control"
-                    formControlName="0"/>
+            <input type="text" *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls; let i = index" class="form-control" [formControlName]="i" />
         </div>
         <button (click)="agregarPasatiempo()" type="button" class="btn btn-primary">
             Nuevo

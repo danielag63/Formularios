@@ -35,20 +35,25 @@ export class DataComponent{
       'pasatiempos': new FormArray([
         new FormControl('Correr', Validators.required)
       ])
-    })
+    });
 
    // this.forma.setValue( this.usuario );
    }
 
+   agregarPasatiempo(){
+     (<FormArray>this.forma.controls['pasatiempos']).push(
+       new FormControl('Dormir', Validators.required)
+     );
+   }
    guardarCambios(){
      console.log(this.forma.value);
      console.log(this.forma);
      this.forma.reset({
         nombrecompleto:{
-          nombre:"",
-          apellido:""
+          nombre:'',
+          apellido:''
         },
-        correo:""
+        correo:''
      });
 
      
