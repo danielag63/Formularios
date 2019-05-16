@@ -26,7 +26,10 @@ export class DataComponent{
           Validators.required,
           Validators.minLength(3)
         ]),
-        'apellido': new FormControl('', Validators.required)
+        'apellido': new FormControl('', [
+                                          Validators.required,
+                                          this.noHerrera
+                                        ])
       }),     
       'correo': new FormControl('', [
                                       Validators.required, 
@@ -34,10 +37,17 @@ export class DataComponent{
                                     ]),
       'pasatiempos': new FormArray([
         new FormControl('Correr', Validators.required)
-      ])
+      ]),
+      'password1': new FormControl('', Validators.required),
+      'password2': new FormControl()
     });
 
    // this.forma.setValue( this.usuario );
+
+     this.forma.controls['password2'].setValidators([
+       Validators.required,
+       this.noIgual.bind( this.forma ) //asignar valor para evitar error de perdida de referencia al this
+     ]);
    }
 
    agregarPasatiempo(){
@@ -45,17 +55,38 @@ export class DataComponent{
        new FormControl('Dormir', Validators.required)
      );
    }
+
+   noHerrera( control: FormControl ): {[s:string]: boolean}{
+      if(control.value === 'herrera'){
+        return {
+          noherrera: true
+        };
+      }
+      return null;
+   }
+
+   noIgual( control: FormControl ): {[s:string]: boolean}{
+
+    let forma: any = this;  //sin forma por cambio de bind
+    if(control.value !== forma.controls['password1'].value){
+      return {
+        noiguales: true
+      };
+    }
+    return null;
+ }
+
    guardarCambios(){
      console.log(this.forma.value);
      console.log(this.forma);
-     this.forma.reset({
+   /*   this.forma.reset({
         nombrecompleto:{
           nombre:'',
           apellido:''
         },
         correo:''
      });
-
+ */
      
    }
 }
